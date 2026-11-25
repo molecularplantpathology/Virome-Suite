@@ -1098,5 +1098,79 @@ def test_T5_8_orchestrator_audit_inventory_classifier_and_runner(tmp_path: pathl
     }.issubset(pkgs)
 
 
+def test_T5_9_multi_sample_multi_replicate_cohort_runner(tmp_path: pathlib.Path) -> None:
+    """T5.9: `virome-suite run-cohort` processes multi-sample + multi-replicate sample sheets end-to-end."""
+    # Missing or invalid samplesheet returns exit code 2
+    assert orchestrator_main(["run-cohort", "--samplesheet", str(tmp_path / "missing.tsv"), "-o", str(tmp_path / "o")]) == 2
+    bad_sheet = tmp_path / "bad_sheet.tsv"
+    bad_sheet.write_text("wrong_col\nval\n", encoding="utf-8")
+    assert orchestrator_main(["run-cohort", "--samplesheet", str(bad_sheet), "-o", str(tmp_path / "o")]) == 2
+
+    monomers = _load_fasta_map(FIXTURES_DIR / "proven_circular_monomers.fasta")
+    badna = monomers["Badnavirus_Ref_Monomer"]
+    begomo = monomers["Begomovirus_Ref_Monomer"]
+    circo = monomers["Circovirus_Ref_Monomer"]
+
+    # Create a 6-sample cohort (S01 has 3 technical replicates with a true 5% variant at index 120; S02..S06 have 1-2 replicates)
+    data_dir = tmp_path / "cohort_inputs"
+    data_dir.mkdir(parents=True, exist_ok=True)
+    sheet_lines = ["sample_id\treplicate_id\tr1_path\tr2_path\tgroup"]
+
+    # Sample S01: 3 replicates tiling a 450 bp slice of Badnavirus with a consistent 20% A/G polymorphism at offset 90
+    s01_ref = badna[:450]
+    mut_base = "G" if s01_ref[90] != "G" else "A"
+    s01_alt = s01_ref[:90] + mut_base + s01_ref[91:]
+    for rep_idx in range(1, 4):
+        rep_fa = data_dir / f"S01_Rep{rep_idx}.fasta"
+        seqs = [f">Badna_contig\n{badna + badna[:200]}\n"]
+        # Add 25 wild-type tiling reads + 6 mutant reads across the region so depth >= 25 and alt ~19%
+        for c_i in range(25):
+            seqs.append(f">wt_{rep_idx}_{c_i}\n{s01_ref[30:180]}\n")
+        for m_i in range(6):
+            seqs.append(f">mut_{rep_idx}_{m_i}\n{s01_alt[30:180]}\n")
+        rep_fa.write_text("".join(seqs), encoding="utf-8")
+        sheet_lines.append(f"Sample_01\tRep{rep_idx}\t{rep_fa.name}\tNA\tSymptomatic")
+
+    # Samples S02..S06: distinct combinations of Badnavirus, Begomovirus, and Circovirus across 5 more samples (total N=6 >= 5)
+    sample_specs = [
+        ("Sample_02", [badna, begomo], "Symptomatic"),
+        ("Sample_03", [begomo, circo], "Asymptomatic"),
+        ("Sample_04", [badna, begomo], "Symptomatic"),
+        ("Sample_05", [circo], "Asymptomatic"),
+        ("Sample_06", [badna, begomo, circo], "Symptomatic"),
+    ]
+    for sid, virus_list, grp in sample_specs:
+        fa_p = data_dir / f"{sid}_Rep1.fasta"
+        fa_p.write_text(
+            "".join(f">{sid}_v{idx}\n{vseq + vseq[:150]}\n" for idx, vseq in enumerate(virus_list, start=1)),
+            encoding="utf-8",
+        )
+        sheet_lines.append(f"{sid}\tRep1\t{fa_p.name}\t\t{grp}")
+
+    sheet_tsv = data_dir / "study_samplesheet.tsv"
+    sheet_tsv.write_text("\n".join(sheet_lines) + "\n", encoding="utf-8")
+
+    cohort_out = tmp_path / "cohort_results"
+    rc = orchestrator_main(
+        [
+            "run-cohort",
+            "--samplesheet", str(sheet_tsv),
+            "--bootstraps", "40",
+            "--stability", "0.60",
+            "-o", str(cohort_out),
+        ]
+    )
+    assert rc == 0
+    csum = json.loads((cohort_out / "cohort_summary.json").read_text(encoding="utf-8"))
+    assert csum["n_samples"] == 6
+    assert csum["total_replicate_libraries"] == 8
+    assert csum["catalog_viral_taxa"] >= 3
+    assert csum["viro_networks_status"] == "SUCCESS"
+    assert csum["samples"]["Sample_01"]["quasispecies_profiler_exit"] == 0
+    assert (cohort_out / "04_cohort_matrices" / "cohort_abundance_counts.tsv").exists()
+    assert (cohort_out / "04_cohort_matrices" / "cohort_metadata.tsv").exists()
+    assert (cohort_out / "05_cohort_ecological_networks" / "sloan_neutral_fit.tsv").exists()
+
+
 if __name__ == "__main__":
     unittest.main()

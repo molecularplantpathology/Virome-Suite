@@ -11,7 +11,7 @@ from typing import List, Optional
 
 from orchestrator import __version__
 from orchestrator.preflight import format_preflight_report, run_preflight_check
-from orchestrator.runner import execute_end_to_end_pipeline
+from orchestrator.runner import execute_cohort_pipeline, execute_end_to_end_pipeline
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -20,7 +20,7 @@ def build_parser() -> argparse.ArgumentParser:
         description=(
             "Virome_Suite: Modular Python Ecosystem for Divergent Viral Discovery, "
             "Circular Genome Curation, Replicate Quasispecies Profiling, Seam-Aware "
-            "NCBI Annotation, and Ecological Co-Occurrence Networks."
+            "NCBI Annotation, and Multi-Sample Ecological Co-Occurrence Networks."
         ),
     )
     parser.add_argument("--version", action="version", version=f"virome-suite {__version__}")
@@ -45,10 +45,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="Path to scripts_manifest.tsv",
     )
 
-    # 3. run
+    # 3. run (single-sample workflow)
     p_run = subparsers.add_parser(
         "run",
-        help="Execute the branching end-to-end Virome_Suite pipeline on input reads or assemblies.",
+        help="Execute the branching end-to-end Virome_Suite pipeline on a single sample.",
     )
     p_run.add_argument("--r1", type=pathlib.Path, required=True, help="Forward reads or contigs FASTA/FASTQ.")
     p_run.add_argument("--r2", type=pathlib.Path, required=False, help="Reverse paired-end FASTA/FASTQ.")
@@ -62,6 +62,36 @@ def build_parser() -> argparse.ArgumentParser:
         type=pathlib.Path,
         required=True,
         help="Output directory for curated genomes, variants, annotations, and provenance log.",
+    )
+
+    # 4. run-cohort (multi-sample & multi-replicate batch workflow)
+    p_cohort = subparsers.add_parser(
+        "run-cohort",
+        help="Execute multi-sample, multi-replicate batch orchestration across an entire study cohort.",
+    )
+    p_cohort.add_argument(
+        "--samplesheet",
+        type=pathlib.Path,
+        required=True,
+        help="Cohort sample sheet TSV/CSV (columns: sample_id, replicate_id, r1_path, [r2_path, group]).",
+    )
+    p_cohort.add_argument("--seeds", type=pathlib.Path, required=False, help="Core viral protein seeds FAA.")
+    p_cohort.add_argument("--host", type=pathlib.Path, required=False, help="Host reference FASTA.")
+    p_cohort.add_argument(
+        "--replicate-type",
+        choices=["technical", "biological"],
+        default="technical",
+        help="Replication design for intra-host variant calling across sample replicates.",
+    )
+    p_cohort.add_argument("--alpha", type=float, default=0.01, help="Target FDR threshold for variant calling.")
+    p_cohort.add_argument("--bootstraps", type=int, default=100, help="Bootstrap resamples for cohort network.")
+    p_cohort.add_argument("--stability", type=float, default=0.80, help="Bootstrap edge stability threshold.")
+    p_cohort.add_argument(
+        "-o",
+        "--output",
+        type=pathlib.Path,
+        required=True,
+        help="Root output directory for per-sample outputs, aggregated matrices, and ecological networks.",
     )
 
     return parser
@@ -117,6 +147,26 @@ def main(argv: Optional[List[str]] = None) -> int:
             replicate_manifest=args.replicates,
             cohort_counts=args.counts,
         )
+        return 0
+
+    if args.subcommand == "run-cohort":
+        if not args.samplesheet.exists():
+            print(f"Error: Samplesheet file not found: {args.samplesheet}", file=sys.stderr)
+            return 2
+        try:
+            execute_cohort_pipeline(
+                samplesheet_path=args.samplesheet,
+                output_dir=args.output,
+                seeds_path=args.seeds,
+                host_path=args.host,
+                replicate_type=args.replicate_type,
+                alpha_fdr=args.alpha,
+                bootstraps=args.bootstraps,
+                stability=args.stability,
+            )
+        except (ValueError, FileNotFoundError) as exc:
+            print(f"Cohort validation error: {exc}", file=sys.stderr)
+            return 2
         return 0
 
     return 0
