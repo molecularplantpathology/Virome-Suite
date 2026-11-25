@@ -30,8 +30,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install build and test tooling
-        run: |
-          python -m pip install --upgrade pip setuptools wheel build twine pytest pytest-cov
+        run: python -m pip install --upgrade pip setuptools wheel build twine pytest pytest-cov
 
       - name: Install 5 standalone Choice-B packages and master orchestrator
         run: |
@@ -39,17 +38,7 @@ jobs:
           python -m pip install .
 
       - name: Run 55-test suite and enforce >=85% per-package coverage
-        run: |
-          python -m pytest tests/unit -v \
-            --cov=viro_drift \
-            --cov=viral_genome_tools \
-            --cov=quasispecies_profiler \
-            --cov=viralbio_reporting \
-            --cov=viro_networks \
-            --cov=orchestrator \
-            --cov-report=term-missing \
-            --cov-report=json:coverage.json \
-            --cov-fail-under=85
+        run: python -m pytest tests/unit -v --cov=viro_drift --cov=viral_genome_tools --cov=quasispecies_profiler --cov=viralbio_reporting --cov=viro_networks --cov=orchestrator --cov-report=term-missing --cov-report=json:coverage.json --cov-fail-under=85
 
       - name: Verify >=85% coverage individually on every package
         shell: bash
@@ -86,8 +75,19 @@ jobs:
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
         shell: bash
         run: |
-          for pkg_dir in packages/viro_drift packages/viral_genome_tools packages/quasispecies_profiler packages/viralbio_reporting packages/viro_networks .; do
-            echo "Building and checking ${pkg_dir}..."
-            python -m build "${pkg_dir}" --outdir "dist_check/$(basename "${pkg_dir}")"
-            python -m twine check "dist_check/$(basename "${pkg_dir}")"/*
-          done
+          python - << 'EOF'
+          import pathlib, subprocess, sys
+          targets = [
+              ("viro_drift", "packages/viro_drift"),
+              ("viral_genome_tools", "packages/viral_genome_tools"),
+              ("quasispecies_profiler", "packages/quasispecies_profiler"),
+              ("viralbio_reporting", "packages/viralbio_reporting"),
+              ("viro_networks", "packages/viro_networks"),
+              ("virome_suite", "."),
+          ]
+          for name, pdir in targets:
+              out = pathlib.Path("dist_check") / name
+              subprocess.run([sys.executable, "-m", "build", "--no-isolation", pdir, "--outdir", str(out)], check=True)
+              files = [str(x) for x in sorted(out.glob("*"))]
+              subprocess.run([sys.executable, "-m", "twine", "check", "--strict"] + files, check=True)
+          EOF
