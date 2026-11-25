@@ -1,0 +1,9 @@
+pos	ref	alt	truth	expected_vaf	rep1_k	rep1_n	rep2_k	rep2_n	rep3_k	rep3_n
+150	A	G	true_isnv	0.045	46	1000	44	1000	45	1000
+320	C	T	true_isnv	0.02	210	10000	195	10000	202	10000
+580	G	A	true_isnv	0.01	105	10000	98	10000	101	10000
+910	T	C	true_isnv	0.006	62	10000	58	10000	60	10000
+1120	A	T	pcr_jackpot_artifact	0.0	180	10000	2	10000	1	10000
+1450	C	A	pcr_jackpot_artifact	0.0	1	10000	150	10000	3	10000
+1700	G	T	monomorphic_bg	0.0	3	10000	2	10000	4	10000
+1950	T	G	monomorphic_bg	0.0	2	10000	3	10000	2	10000

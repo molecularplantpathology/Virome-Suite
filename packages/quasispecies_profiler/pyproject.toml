@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quasispecies-profiler"
+version = "0.1.0"
+description = "Replicate-aware Beta-Binomial intra-host viral variant caller and diversity profiler"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    { name = "Molecular Plant Pathology Lab, ICAR-Indian Sugarcane Research Institute", email = "shwetabac@gmail.com" },
+]
+maintainers = [
+    { name = "Dr. Shweta Singh", email = "shwetabac@gmail.com" },
+]
+keywords = ["virome", "quasispecies", "variant-calling", "beta-binomial", "bioinformatics"]
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "pandas>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/molecularplantpathology/Virome-Suite"
+Repository = "https://github.com/molecularplantpathology/Virome-Suite.git"
+Issues = "https://github.com/molecularplantpathology/Virome-Suite/issues"
+
+[project.scripts]
+quasispecies-profiler = "quasispecies_profiler.cli:main"
+
+[tool.setuptools]
+packages = ["quasispecies_profiler"]

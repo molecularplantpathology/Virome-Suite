@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "viro-networks"
+version = "0.1.0"
+description = "Compositional virome co-occurrence consensus networks and Sloan neutral community model solver"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    { name = "Molecular Plant Pathology Lab, ICAR-Indian Sugarcane Research Institute", email = "shwetabac@gmail.com" },
+]
+maintainers = [
+    { name = "Dr. Shweta Singh", email = "shwetabac@gmail.com" },
+]
+keywords = ["virome", "ecological-networks", "sparcc", "neutral-model", "compositional-data"]
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "pandas>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/molecularplantpathology/Virome-Suite"
+Repository = "https://github.com/molecularplantpathology/Virome-Suite.git"
+Issues = "https://github.com/molecularplantpathology/Virome-Suite/issues"
+
+[project.scripts]
+viro-networks = "viro_networks.cli:main"
+
+[tool.setuptools]
+packages = ["viro_networks"]

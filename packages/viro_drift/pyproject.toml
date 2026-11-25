@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "viro-drift"
+version = "0.1.0"
+description = "Adaptive divergent viral discovery via 6-frame protein seed baiting and local micro-assembly"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    { name = "Molecular Plant Pathology Lab, ICAR-Indian Sugarcane Research Institute", email = "shwetabac@gmail.com" },
+]
+maintainers = [
+    { name = "Dr. Shweta Singh", email = "shwetabac@gmail.com" },
+]
+keywords = ["virome", "metagenomics", "virus-discovery", "plant-pathology", "bioinformatics"]
+dependencies = [
+    "biopython>=1.81",
+    "numpy>=1.24.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/molecularplantpathology/Virome-Suite"
+Repository = "https://github.com/molecularplantpathology/Virome-Suite.git"
+Issues = "https://github.com/molecularplantpathology/Virome-Suite/issues"
+
+[project.scripts]
+viro-drift = "viro_drift.cli:main"
+
+[tool.setuptools]
+packages = ["viro_drift"]

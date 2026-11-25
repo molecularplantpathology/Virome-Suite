@@ -1,0 +1,121 @@
+# Pre-Registered Benchmark & Cross-Validation Protocol for Virome_Suite (v1.0)
+# Locked in Gate 1 / Completion Mark 1 prior to comparative benchmark execution.
+
+protocol_version: "1.0.0"
+locked_date: "2026-11-17"
+random_seeds: [42, 101, 202, 303, 404, 505, 606, 707, 808, 909]
+
+validation_strategy:
+  layer_a_proven_public_datasets:
+    description: >
+      Cross-validation on publicly deposited, molecular-lab-confirmed viral datasets
+      from NCBI RefSeq/GenBank across diverse circular and linear virus families
+      (no dependency on private raw drives).
+    virus_families_included:
+      circular_dna:
+        - family: Caulimoviridae
+          genera: [Badnavirus, Caulimovirus]
+          canonical_landmark: "tRNA-Met PBS (TGGTATCAGAGC)"
+        - family: Geminiviridae
+          genera: [Begomovirus, Mastrevirus]
+          canonical_landmark: "Stem-loop nonanucleotide (TAATATTAC)"
+        - family: Circoviridae
+          genera: [Circovirus]
+          canonical_landmark: "Origin nonanucleotide (TAGTATTAC)"
+      linear_rna_and_dna:
+        - family: Potyviridae
+          genera: [Poacevirus, Potyvirus]
+        - family: Solemoviridae
+          genera: [Polerovirus]
+        - family: Virgaviridae
+          genera: [Tobamovirus]
+        - family: Adenoviridae_and_Linear_Phages
+          role: "Linear terminal-repeat (TIR/DTR) negative controls for false-circularization testing"
+
+benchmarks:
+  BM-1_divergent_viral_rescue:
+    module: viro_drift
+    hypothesis: >
+      6-frame translated core domain baiting (RdRp, RT, Rep) from host-partitioned
+      unmapped reads followed by isolated local micro-assembly recovers higher genome
+      completeness and NGA50 than unguided global assembly under 95-99.8% host background.
+    divergence_tiers_pct: [5, 10, 15, 20, 25, 30, 35]
+    coverage_tiers_x: [5, 10, 15, 30, 50]
+    ablations:
+      - A_global_assembly_only
+      - B_global_assembly_plus_post_protein_search
+      - C_protein_recruitment_plus_default_assembly
+      - D_full_viro_drift_adaptive_micro_assembly
+    negative_controls:
+      - host_retrotransposon_RT_decoys
+      - uninfected_host_reads
+    baselines: [metaSPAdes, MEGAHIT]
+    primary_metrics: [genome_fraction_pct, nga50, false_recruitment_rate, chimera_rate]
+
+  BM-2_circular_junction_and_monomer_curation:
+    module: viral_genome_tools
+    hypothesis: >
+      Banded self-overlap DTR resolution and Multi-Family Landmark rotation recover
+      exact 1.0x monomer lengths (+/- 0 bp on truth sets) and ICTV coordinate-1 origins
+      while avoiding false circularization on linear terminal-repeat controls.
+    concatemer_multipliers: [1.15, 1.5, 1.8, 2.0, 2.25, 2.5, 3.0]
+    linear_negative_controls_count: 50
+    minimum_depth_guard_x: 10
+    host_flank_conflict_threshold: 0.15
+    baselines: [Cenote-Taker2, Cenote-Taker3, Circlator]
+    primary_metrics:
+      - exact_monomer_length_recovery_rate
+      - coordinate_1_landmark_offset_bp
+      - false_circularization_rate_on_linear_tir
+      - e_junction_auroc_and_brier_score
+
+  BM-3_intra_host_variant_calling:
+    module: quasispecies_profiler
+    hypothesis: >
+      Hierarchical Empirical Bayes Beta-Binomial shrinkage calibrated via null
+      parametric bootstrap controls false discoveries induced by PCR amplification
+      overdispersion at deep sequencing coverage (>1,000x to 50,000x).
+    replicates_per_condition: 3
+    vaf_tiers_pct: [0.5, 1.0, 2.0, 5.0]
+    depth_tiers_x: [100, 1000, 10000, 50000]
+    limit_of_detection_rules:
+      depth_100x_min_evaluable_vaf_pct: 3.0
+      depth_1000x_min_evaluable_vaf_pct: 0.5
+    target_fdr_alpha: 0.01
+    baselines: [LoFreq, iVar, FreeBayes]
+    primary_metrics: [empirical_fdr, pr_auc, sensitivity, vaf_rmse, ci_95_coverage]
+
+  BM-4_circular_seam_annotation_and_ncbi_validation:
+    module: viralbio_reporting
+    hypothesis: >
+      2x circular wraparound translation (Seq + Seq) with modulo-L interval mapping
+      recovers intact origin-spanning ORFs across random circular cut points and
+      passes headless NCBI table2asn validation with zero fatal errors.
+    random_rotation_cuts_per_genome: 10
+    baselines: [Prokka, Bakta, pharokka, Cenote-Taker2]
+    primary_metrics:
+      - origin_spanning_orf_recall
+      - exact_aa_translation_identity
+      - table2asn_fatal_error_count
+      - sha256_provenance_chain_integrity
+
+  BM-5_cohort_networks_and_neutral_assembly:
+    module: viro_networks
+    hypothesis: >
+      Multi-estimator consensus on CLR-transformed count tables and Sloan neutral
+      drift modeling improve edge stability and separate random demographic drift
+      from candidate non-random co-occurrences.
+    bootstrap_iterations: 100
+    stability_threshold: 0.80
+    fdr_method: benjamini_hochberg
+    baselines: [Standalone_SparCC, SPIEC-EASI, SPRING]
+    primary_metrics: [planted_edge_f1, sign_accuracy, bootstrap_edge_stability, sloan_r2]
+
+  BM-6_end_to_end_workflow_integration:
+    module: virome-suite
+    hypothesis: >
+      The branching Python orchestrator routes mixed circular DNA and linear RNA
+      viral metagenomes to their respective curation and annotation tracks accurately
+      with full provenance logging.
+    baselines: [nf-core_viralmetagenome, ViromeXplore]
+    primary_metrics: [end_to_end_species_recall, topology_accuracy, peak_ram_gb, wall_time_min]

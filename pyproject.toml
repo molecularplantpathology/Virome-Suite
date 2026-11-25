@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "virome-suite"
+version = "0.1.0"
+description = "Integrated Python Ecosystem for Divergent Viral Discovery, Circular Landmark Curation, Replicate Quasispecies Profiling, Seam-Aware Annotation, and Co-Occurrence Networks"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    { name = "Molecular Plant Pathology Lab, ICAR-Indian Sugarcane Research Institute", email = "shwetabac@gmail.com" },
+]
+maintainers = [
+    { name = "Dr. Shweta Singh", email = "shwetabac@gmail.com" },
+]
+keywords = ["virome", "metagenomics", "plant-viruses", "circular-genome", "quasispecies", "bioinformatics"]
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "pandas>=2.0.0",
+    "biopython>=1.81",
+    "PyYAML>=6.0",
+    "viro-drift>=0.1.0",
+    "viral-genome-tools>=0.1.0",
+    "quasispecies-profiler>=0.1.0",
+    "viralbio-reporting>=0.1.0",
+    "viro-networks>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/molecularplantpathology/Virome-Suite"
+Repository = "https://github.com/molecularplantpathology/Virome-Suite.git"
+Issues = "https://github.com/molecularplantpathology/Virome-Suite/issues"
+
+[project.scripts]
+virome-suite = "orchestrator.cli:main"
+
+[tool.setuptools]
+packages = ["orchestrator"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit"]
+pythonpath = [
+    ".",
+    "packages/viro_drift",
+    "packages/viral_genome_tools",
+    "packages/quasispecies_profiler",
+    "packages/viralbio_reporting",
+    "packages/viro_networks",
+]

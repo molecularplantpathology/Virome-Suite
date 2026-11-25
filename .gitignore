@@ -1,0 +1,33 @@
+# Security: Never commit API tokens, local env files, or PyPI/GitHub credentials
+.env
+.env.*
+*.local
+.pypirc
+.pypirc.*
+*token*
+
+# Local historical script archive & internal planning/review drafts (kept strictly local)
+r-pkg_tst/
+REPLY_TO_ANTAGONISTIC_REVIEW*.md
+MARK1_COMPLETION_REPORT.md
+MARK2_ANTAGONISTIC_REVIEW_AND_RESOLUTIONS.md
+MARK2_TECHNICAL_AND_TESTING_SPECIFICATION.md
+PROJECT_MASTER_PLAN.md
+
+# Python build, wheel & coverage artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+packages/*/build/
+packages/*/dist/
+packages/*/*.egg-info/
+packages/*/*/*.egg-info/
+.eggs/
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/

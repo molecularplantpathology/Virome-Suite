@@ -1,0 +1,93 @@
+name: Virome-Suite CI & Coverage Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-coverage:
+    name: Test & >=85% Coverage (${{ matrix.os }}, Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install build and test tooling
+        run: |
+          python -m pip install --upgrade pip setuptools wheel build twine pytest pytest-cov
+
+      - name: Install 5 standalone Choice-B packages and master orchestrator
+        run: |
+          python -m pip install ./packages/viro_drift ./packages/viral_genome_tools ./packages/quasispecies_profiler ./packages/viralbio_reporting ./packages/viro_networks
+          python -m pip install .
+
+      - name: Run 55-test suite and enforce >=85% per-package coverage
+        run: |
+          python -m pytest tests/unit -v \
+            --cov=viro_drift \
+            --cov=viral_genome_tools \
+            --cov=quasispecies_profiler \
+            --cov=viralbio_reporting \
+            --cov=viro_networks \
+            --cov=orchestrator \
+            --cov-report=term-missing \
+            --cov-report=json:coverage.json \
+            --cov-fail-under=85
+
+      - name: Verify >=85% coverage individually on every package
+        shell: bash
+        run: |
+          python - << 'EOF'
+          import json, pathlib
+          cov = json.loads(pathlib.Path("coverage.json").read_text(encoding="utf-8"))
+          pkgs = [
+              "viro_drift",
+              "viral_genome_tools",
+              "quasispecies_profiler",
+              "viralbio_reporting",
+              "viro_networks",
+              "orchestrator",
+          ]
+          failed = []
+          for pkg in pkgs:
+              stmts = 0
+              covered = 0
+              for fpath, fdata in cov["files"].items():
+                  norm = fpath.replace("\\", "/")
+                  if f"/{pkg}/" in f"/{norm}":
+                      stmts += fdata["summary"]["num_statements"]
+                      covered += fdata["summary"]["covered_lines"]
+              pct = (100.0 * covered / stmts) if stmts > 0 else 0.0
+              print(f"Package {pkg:24s}: {pct:6.2f}% ({covered}/{stmts} statements)")
+              if pct < 85.0:
+                  failed.append((pkg, pct))
+          if failed:
+              raise SystemExit(f"Per-package coverage below 85%: {failed}")
+          EOF
+
+      - name: Verify PEP 517 wheel/sdist build and Twine metadata check
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+        shell: bash
+        run: |
+          for pkg_dir in packages/viro_drift packages/viral_genome_tools packages/quasispecies_profiler packages/viralbio_reporting packages/viro_networks .; do
+            echo "Building and checking ${pkg_dir}..."
+            python -m build "${pkg_dir}" --outdir "dist_check/$(basename "${pkg_dir}")"
+            python -m twine check "dist_check/$(basename "${pkg_dir}")"/*
+          done

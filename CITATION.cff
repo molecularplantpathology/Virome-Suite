@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+title: "Virome-Suite: Modular Python Ecosystem for Viral Discovery, Circular Genome Curation, Quasispecies Profiling, Seam-Aware Annotation, and Co-Occurrence Networks"
+message: "If you use Virome-Suite or its constituent packages in your research, please cite this software."
+type: software
+version: "0.1.0"
+license: MIT
+repository-code: "https://github.com/molecularplantpathology/Virome-Suite"
+url: "https://github.com/molecularplantpathology/Virome-Suite"
+authors:
+  - name: "Molecular Plant Pathology Lab, ICAR-Indian Sugarcane Research Institute"
+    email: "shwetabac@gmail.com"
+contact:
+  - family-names: "Singh"
+    given-names: "Shweta"
+    email: "shwetabac@gmail.com"
+    affiliation: "Molecular Plant Pathology Lab, ICAR-Indian Sugarcane Research Institute"
+keywords:
+  - virome
+  - metagenomics
+  - plant-viruses
+  - circular-genome
+  - quasispecies
+  - ecological-networks

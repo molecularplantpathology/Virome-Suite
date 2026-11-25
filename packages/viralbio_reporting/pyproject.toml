@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "viralbio-reporting"
+version = "0.1.0"
+description = "Seamless circular wraparound ORF annotation, SHA-256 provenance logging, and NCBI GenBank submission builder"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    { name = "Molecular Plant Pathology Lab, ICAR-Indian Sugarcane Research Institute", email = "shwetabac@gmail.com" },
+]
+maintainers = [
+    { name = "Dr. Shweta Singh", email = "shwetabac@gmail.com" },
+]
+keywords = ["virome", "genbank", "annotation", "circular-genome", "table2asn", "bioinformatics"]
+dependencies = [
+    "biopython>=1.81",
+    "pandas>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/molecularplantpathology/Virome-Suite"
+Repository = "https://github.com/molecularplantpathology/Virome-Suite.git"
+Issues = "https://github.com/molecularplantpathology/Virome-Suite/issues"
+
+[project.scripts]
+viralbio-reporting = "viralbio_reporting.cli:main"
+
+[tool.setuptools]
+packages = ["viralbio_reporting"]
