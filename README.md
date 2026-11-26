@@ -160,9 +160,11 @@ viro-networks infer --counts tests/fixtures/virome_cohort_counts.tsv -o out_netw
 
 ---
 
-## Validated Performance & Cohort Outputs
+## Synthetic Unit-Validation Smoke Check
 
-Every module is tested by **56 automated unit & adversarial edge-case tests (`93.37%` line coverage)** on Ubuntu and Windows, and benchmarked across pre-registered stress tests ([`benchmarks/run_benchmarks.py`](benchmarks/run_benchmarks.py)):
+> **Note:** The plots and metrics below reflect deterministic **in-silico unit-validation smoke checks** ([`benchmarks/run_benchmarks.py`](benchmarks/run_benchmarks.py)) against internal mathematical baselines to verify algorithmic behavior in CI. Full-scale empirical benchmarks on public NCBI RefSeq & SRA sequencing cohorts against external bioinformatics tools (`MEGAHIT`, `metaSPAdes`, `LoFreq`, `iVar`, `Prokka`, `Circlator`, `FastSpar`) are being executed separately for the manuscript release.
+
+Every module is tested by **56 automated unit & adversarial edge-case tests (`93.42%` line coverage)** on Ubuntu and Windows:
 
 <p align="center">
   <img src="docs/assets/fig3_benchmark_performance.svg" alt="Empirical Benchmark Validation Across All 5 Modules" width="100%"/>
