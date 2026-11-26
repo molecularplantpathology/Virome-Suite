@@ -17,7 +17,7 @@
 2. **Revolution-2 Anchor Monomerization (`viral_genome_tools.monomer_curator`):**
    Resolves $1.1\times\text{--}3.0\times$ tandem assembly concatemers by anchoring index `0` of Revolution 1 to the 0-based start coordinate $p_2$ of Revolution 2 via banded alignment ($\ge 95\%$ identity, $\ge 40\text{ bp}$ direct terminal overlap). Defining monomer length $P^* = p_2$ recovers the exact biological monomer ($\pm 0\text{ bp}$) even when sequencing indels occur inside the downstream overlap tail.
 3. **Two-Pass Priority Landmark Canonicalization (`viral_genome_tools.landmark_rotator`):**
-   Standardizes strand orientation to `(+)` and rotates Coordinate 1 to conserved ICTV family landmarks across circular wraparound boundaries:
+   Standardizes strand orientation to `(+)` and rotates Coordinate 1 across circular wraparound boundaries for diverse circular viral families — **such as** *Caulimoviridae*, *Geminiviridae*, *Circoviridae*, and *Nanoviridae* — as well as any novel or unclassified circular virus via custom motifs or automatic ORF canonicalization:
    - *Caulimoviridae* (*Badnavirus* / *Caulimovirus*): `TGGTATCAGAGC` (`tRNA-Met` primer-binding site)
    - *Geminiviridae* (*Begomovirus* / *Mastrevirus* / *Curtovirus*): `TAATATTAC` (stem-loop nonanucleotide)
    - *Circoviridae* / *Nanoviridae*: `TAGTATTAC` / `CAGTATTAC` (origin nonanucleotide)

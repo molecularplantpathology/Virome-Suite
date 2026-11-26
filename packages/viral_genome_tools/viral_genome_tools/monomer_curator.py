@@ -183,26 +183,48 @@ def trim_concatemer_to_monomer(
         if candidate_periods:
             break
 
-    # Evaluate candidate periods p2 in ascending order (smallest fundamental period / longest overlap first)
-    for p2 in sorted(candidate_periods):
-        suffix = s[p2:]
-        prefix = s[: min(n, len(suffix) + band)]
-        ident = _banded_prefix_suffix_identity(prefix=prefix, suffix=suffix, band=band)
-        if ident >= min_identity:
-            # If L >= 2 * p2, also verify first two complete revolutions agree
+    # Group nearby candidate periods within 2*band (indel-shifted hits of the same revolution)
+    # so we always pick the fundamental 1.0x cluster first, and within that cluster select the
+    # exact Revolution-2 start p2 with strongest opening anchor + full suffix identity (`P0-VGT-1`).
+    sorted_periods = sorted(candidate_periods)
+    clusters: List[List[int]] = []
+    for p2 in sorted_periods:
+        if not clusters or (p2 - clusters[-1][-1]) > (2 * band):
+            clusters.append([p2])
+        else:
+            clusters[-1].append(p2)
+
+    for cluster in clusters:
+        best_choice = None
+        best_key = (-1.0, -1.0)
+        for p2 in cluster:
+            suffix = s[p2:]
+            prefix = s[: min(n, len(suffix) + band)]
+            ident = _banded_prefix_suffix_identity(prefix=prefix, suffix=suffix, band=band)
+            if ident < min_identity:
+                continue
             if n >= 2 * p2:
                 rev_ident = _banded_prefix_suffix_identity(s[:p2], s[p2 : 2 * p2], band=band)
                 if rev_ident < min_identity:
                     continue
-            monomer = s[:p2]
+            anchor_w = min(30, len(suffix), p2)
+            anchor_exact = sum(1 for a, b in zip(s[:anchor_w], suffix[:anchor_w]) if a == b) / float(max(1, anchor_w))
+            score_key = (round(ident, 6), round(anchor_exact, 6))
+            if score_key > best_key:
+                best_key = score_key
+                best_choice = (p2, ident)
+
+        if best_choice is not None:
+            p2_win, ident_win = best_choice
+            monomer = s[:p2_win]
             return MonomerCurationResult(
                 monomer_seq=monomer,
                 original_length=n,
-                monomer_length=p2,
+                monomer_length=p2_win,
                 was_trimmed=True,
                 has_terminal_inverted_repeat=False,
-                overlap_length=n - p2,
-                overlap_identity=round(ident, 4),
+                overlap_length=n - p2_win,
+                overlap_identity=round(ident_win, 4),
             )
 
     return MonomerCurationResult(

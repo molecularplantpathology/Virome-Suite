@@ -1,0 +1,7 @@
+{
+  "total_rotated_assemblies": 30,
+  "viralbio_reporting_exact_proteome_pct": 100.0,
+  "linear_1x_caller_exact_proteome_pct": 26.67,
+  "naive_2x_duplicate_inflation_pct": 100.0,
+  "ncbi_tbl_and_provenance_pass_pct": 100.0
+}

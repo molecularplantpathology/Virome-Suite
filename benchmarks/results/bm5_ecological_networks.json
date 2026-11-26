@@ -1,0 +1,64 @@
+{
+  "viro_networks_mean_f1": 0.773,
+  "single_sparcc_mean_f1": 0.681,
+  "raw_rel_pearson_mean_f1": 0.23,
+  "mean_sloan_r2": 0.616,
+  "fixture_cohort_ne_m": 0.4547,
+  "fixture_cohort_r2": -0.4991,
+  "fixture_sloan_points": [
+    {
+      "taxon": "Badnavirus_A",
+      "mean_p": 0.2608,
+      "obs_f": 1.0,
+      "pred_f": 0.8725,
+      "w_low": 0.6869,
+      "w_high": 0.9552,
+      "class": "neutral_drift_consistent"
+    },
+    {
+      "taxon": "Badnavirus_B",
+      "mean_p": 0.15311,
+      "obs_f": 0.6667,
+      "pred_f": 0.6937,
+      "w_low": 0.4937,
+      "w_high": 0.8403,
+      "class": "neutral_drift_consistent"
+    },
+    {
+      "taxon": "Poacevirus_SCSMV",
+      "mean_p": 0.19262,
+      "obs_f": 0.5,
+      "pred_f": 0.7769,
+      "w_low": 0.5794,
+      "w_high": 0.898,
+      "class": "candidate_below_neutral_partition"
+    },
+    {
+      "taxon": "Polerovirus_SCYLV",
+      "mean_p": 0.16079,
+      "obs_f": 0.5,
+      "pred_f": 0.7119,
+      "w_low": 0.5119,
+      "w_high": 0.8534,
+      "class": "neutral_drift_consistent"
+    },
+    {
+      "taxon": "Begomovirus_C",
+      "mean_p": 0.15346,
+      "obs_f": 0.75,
+      "pred_f": 0.6945,
+      "w_low": 0.4945,
+      "w_high": 0.8409,
+      "class": "neutral_drift_consistent"
+    },
+    {
+      "taxon": "Mastrevirus_D",
+      "mean_p": 0.07922,
+      "obs_f": 0.8333,
+      "pred_f": 0.453,
+      "w_low": 0.2745,
+      "w_high": 0.6445,
+      "class": "candidate_above_neutral_partition"
+    }
+  ]
+}

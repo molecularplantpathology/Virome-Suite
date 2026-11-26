@@ -1,0 +1,189 @@
+{
+  "protocol_version": "1.0.0",
+  "BM1_divergent_rescue": {
+    "rows": [
+      {
+        "divergence_pct": 5,
+        "viro_drift_genome_recovery_pct": 96.33,
+        "nucleotide_bait_recovery_pct": 96.33,
+        "unguided_global_nt_search_pct": 0.0,
+        "viro_drift_false_decoy_pct": 0.0
+      },
+      {
+        "divergence_pct": 10,
+        "viro_drift_genome_recovery_pct": 96.33,
+        "nucleotide_bait_recovery_pct": 96.33,
+        "unguided_global_nt_search_pct": 0.0,
+        "viro_drift_false_decoy_pct": 0.0
+      },
+      {
+        "divergence_pct": 15,
+        "viro_drift_genome_recovery_pct": 96.33,
+        "nucleotide_bait_recovery_pct": 96.33,
+        "unguided_global_nt_search_pct": 0.0,
+        "viro_drift_false_decoy_pct": 0.0
+      },
+      {
+        "divergence_pct": 20,
+        "viro_drift_genome_recovery_pct": 96.33,
+        "nucleotide_bait_recovery_pct": 96.33,
+        "unguided_global_nt_search_pct": 0.0,
+        "viro_drift_false_decoy_pct": 0.0
+      },
+      {
+        "divergence_pct": 25,
+        "viro_drift_genome_recovery_pct": 96.33,
+        "nucleotide_bait_recovery_pct": 32.11,
+        "unguided_global_nt_search_pct": 0.0,
+        "viro_drift_false_decoy_pct": 0.0
+      },
+      {
+        "divergence_pct": 30,
+        "viro_drift_genome_recovery_pct": 96.33,
+        "nucleotide_bait_recovery_pct": 32.11,
+        "unguided_global_nt_search_pct": 0.0,
+        "viro_drift_false_decoy_pct": 0.0
+      },
+      {
+        "divergence_pct": 35,
+        "viro_drift_genome_recovery_pct": 96.33,
+        "nucleotide_bait_recovery_pct": 0.0,
+        "unguided_global_nt_search_pct": 0.0,
+        "viro_drift_false_decoy_pct": 0.0
+      }
+    ],
+    "recovery_at_25pct_divergence": 96.33,
+    "nt_baseline_at_25pct_divergence": 32.11,
+    " recovery_at_35pct_divergence": 96.33,
+    "max_false_decoy_rate_pct": 0.0
+  },
+  "BM2_circular_curation": {
+    "total_concatemer_cases": 21,
+    "vgt_exact_monomer_recovery_pct": 100.0,
+    "tail_subtraction_baseline_exact_pct": 0.0,
+    "coordinate_1_exact_landmark_pct": 100.0,
+    "linear_tir_controls_tested": 50,
+    "vgt_false_circularization_pct": 0.0,
+    "naive_no_tir_veto_false_circ_pct": 88.0,
+    "e_junction_auroc": 1.0,
+    "e_junction_brier_score": 0.008,
+    "mean_circular_e_score": 95.97,
+    "mean_linear_e_score": 11.89
+  },
+  "BM3_variant_calling": {
+    "rows": [
+      {
+        "depth_x": 100,
+        "evaluable_true_variants": 4,
+        "qp_sensitivity_pct": 100.0,
+        "qp_empirical_fdr_pct": 0.0,
+        "single_rep_binomial_fdr_pct": 60.0,
+        "pooled_binomial_fdr_pct": 60.0
+      },
+      {
+        "depth_x": 1000,
+        "evaluable_true_variants": 16,
+        "qp_sensitivity_pct": 81.25,
+        "qp_empirical_fdr_pct": 0.0,
+        "single_rep_binomial_fdr_pct": 57.14,
+        "pooled_binomial_fdr_pct": 51.85
+      },
+      {
+        "depth_x": 10000,
+        "evaluable_true_variants": 16,
+        "qp_sensitivity_pct": 87.5,
+        "qp_empirical_fdr_pct": 0.0,
+        "single_rep_binomial_fdr_pct": 50.0,
+        "pooled_binomial_fdr_pct": 53.33
+      },
+      {
+        "depth_x": 50000,
+        "evaluable_true_variants": 16,
+        "qp_sensitivity_pct": 100.0,
+        "qp_empirical_fdr_pct": 0.0,
+        "single_rep_binomial_fdr_pct": 50.0,
+        "pooled_binomial_fdr_pct": 48.39
+      }
+    ]
+  },
+  "BM4_seam_annotation": {
+    "total_rotated_assemblies": 30,
+    "viralbio_reporting_exact_proteome_pct": 100.0,
+    "linear_1x_caller_exact_proteome_pct": 26.67,
+    "naive_2x_duplicate_inflation_pct": 100.0,
+    "ncbi_tbl_and_provenance_pass_pct": 100.0
+  },
+  "BM5_ecological_networks": {
+    "viro_networks_mean_f1": 0.773,
+    "single_sparcc_mean_f1": 0.681,
+    "raw_rel_pearson_mean_f1": 0.23,
+    "mean_sloan_r2": 0.616,
+    "fixture_cohort_ne_m": 0.4547,
+    "fixture_cohort_r2": -0.4991,
+    "fixture_sloan_points": [
+      {
+        "taxon": "Badnavirus_A",
+        "mean_p": 0.2608,
+        "obs_f": 1.0,
+        "pred_f": 0.8725,
+        "w_low": 0.6869,
+        "w_high": 0.9552,
+        "class": "neutral_drift_consistent"
+      },
+      {
+        "taxon": "Badnavirus_B",
+        "mean_p": 0.15311,
+        "obs_f": 0.6667,
+        "pred_f": 0.6937,
+        "w_low": 0.4937,
+        "w_high": 0.8403,
+        "class": "neutral_drift_consistent"
+      },
+      {
+        "taxon": "Poacevirus_SCSMV",
+        "mean_p": 0.19262,
+        "obs_f": 0.5,
+        "pred_f": 0.7769,
+        "w_low": 0.5794,
+        "w_high": 0.898,
+        "class": "candidate_below_neutral_partition"
+      },
+      {
+        "taxon": "Polerovirus_SCYLV",
+        "mean_p": 0.16079,
+        "obs_f": 0.5,
+        "pred_f": 0.7119,
+        "w_low": 0.5119,
+        "w_high": 0.8534,
+        "class": "neutral_drift_consistent"
+      },
+      {
+        "taxon": "Begomovirus_C",
+        "mean_p": 0.15346,
+        "obs_f": 0.75,
+        "pred_f": 0.6945,
+        "w_low": 0.4945,
+        "w_high": 0.8409,
+        "class": "neutral_drift_consistent"
+      },
+      {
+        "taxon": "Mastrevirus_D",
+        "mean_p": 0.07922,
+        "obs_f": 0.8333,
+        "pred_f": 0.453,
+        "w_low": 0.2745,
+        "w_high": 0.6445,
+        "class": "candidate_above_neutral_partition"
+      }
+    ]
+  },
+  "BM6_end_to_end_cohort": {
+    "n_samples_processed": 6,
+    "total_replicate_libraries": 9,
+    "non_redundant_taxa_recovered": 9,
+    "tir_linear_control_preserved": true,
+    "viro_networks_status": "SUCCESS",
+    "wall_time_seconds": 3.05,
+    "peak_python_memory_mb": 3.54
+  }
+}

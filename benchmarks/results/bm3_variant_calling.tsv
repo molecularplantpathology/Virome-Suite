@@ -1,0 +1,5 @@
+depth_x	evaluable_true_variants	qp_sensitivity_pct	qp_empirical_fdr_pct	single_rep_binomial_fdr_pct	pooled_binomial_fdr_pct
+100	4	100.0	0.0	60.0	60.0
+1000	16	81.25	0.0	57.14	51.85
+10000	16	87.5	0.0	50.0	53.33
+50000	16	100.0	0.0	50.0	48.39

@@ -1,0 +1,8 @@
+divergence_pct	viro_drift_genome_recovery_pct	nucleotide_bait_recovery_pct	unguided_global_nt_search_pct	viro_drift_false_decoy_pct
+5	96.33	96.33	0.0	0.0
+10	96.33	96.33	0.0	0.0
+15	96.33	96.33	0.0	0.0
+20	96.33	96.33	0.0	0.0
+25	96.33	32.11	0.0	0.0
+30	96.33	32.11	0.0	0.0
+35	96.33	0.0	0.0	0.0

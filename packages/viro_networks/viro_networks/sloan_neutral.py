@@ -85,12 +85,18 @@ def fit_sloan_neutral_model(
     obs_f = np.mean(sub_counts > 0, axis=0)
     d_lim = min(max(1.0 / float(np.median(totals_valid)), 1e-9), 0.5)
 
-    def sse_obj(nm_val: float) -> float:
-        pred = sloan_predicted_occurrence(mean_p, nm_val, d_lim)
+    def sse_log_obj(log10_nm: float) -> float:
+        pred = sloan_predicted_occurrence(mean_p, 10.0 ** float(log10_nm), d_lim)
         return float(np.sum((obs_f - pred) ** 2))
 
-    opt = minimize_scalar(sse_obj, bounds=(1e-3, 1e4), method="bounded")
-    ne_m_hat = float(opt.x)
+    # Coarse log-grid scan across 10^-3 .. 10^4 prevents flat plateau trapping when betainc saturates
+    grid_logs = np.linspace(-3.0, 4.0, 71)
+    grid_vals = [sse_log_obj(float(lg)) for lg in grid_logs]
+    best_idx = int(np.argmin(grid_vals))
+    lo_log = float(grid_logs[max(0, best_idx - 2)])
+    hi_log = float(grid_logs[min(len(grid_logs) - 1, best_idx + 2)])
+    opt = minimize_scalar(sse_log_obj, bounds=(lo_log, hi_log), method="bounded")
+    ne_m_hat = float(10.0 ** float(opt.x))
     pred_f = sloan_predicted_occurrence(mean_p, ne_m_hat, d_lim)
 
     # Zero-variance R^2 guard (`P0-VN-1`)

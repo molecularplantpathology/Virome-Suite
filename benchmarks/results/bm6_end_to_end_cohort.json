@@ -1,0 +1,9 @@
+{
+  "n_samples_processed": 6,
+  "total_replicate_libraries": 9,
+  "non_redundant_taxa_recovered": 9,
+  "tir_linear_control_preserved": true,
+  "viro_networks_status": "SUCCESS",
+  "wall_time_seconds": 3.05,
+  "peak_python_memory_mb": 3.54
+}

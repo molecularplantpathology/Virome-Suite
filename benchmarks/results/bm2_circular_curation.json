@@ -1,0 +1,13 @@
+{
+  "total_concatemer_cases": 21,
+  "vgt_exact_monomer_recovery_pct": 100.0,
+  "tail_subtraction_baseline_exact_pct": 0.0,
+  "coordinate_1_exact_landmark_pct": 100.0,
+  "linear_tir_controls_tested": 50,
+  "vgt_false_circularization_pct": 0.0,
+  "naive_no_tir_veto_false_circ_pct": 88.0,
+  "e_junction_auroc": 1.0,
+  "e_junction_brier_score": 0.008,
+  "mean_circular_e_score": 95.97,
+  "mean_linear_e_score": 11.89
+}
