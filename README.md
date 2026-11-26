@@ -1,10 +1,12 @@
 # Virome-Suite
 
 [![CI & Coverage Gate](https://github.com/molecularplantpathology/Virome-Suite/actions/workflows/ci.yml/badge.svg)](https://github.com/molecularplantpathology/Virome-Suite/actions/workflows/ci.yml)
+[![PyPI - virome-suite](https://img.shields.io/pypi/v/virome-suite?label=virome-suite)](https://pypi.org/project/virome-suite/)
 [![PyPI - viro-drift](https://img.shields.io/pypi/v/viro-drift?label=viro-drift)](https://pypi.org/project/viro-drift/)
 [![PyPI - viral-genome-tools](https://img.shields.io/pypi/v/viral-genome-tools?label=viral-genome-tools)](https://pypi.org/project/viral-genome-tools/)
 [![PyPI - quasispecies-profiler](https://img.shields.io/pypi/v/quasispecies-profiler?label=quasispecies-profiler)](https://pypi.org/project/quasispecies-profiler/)
 [![PyPI - viralbio-reporting](https://img.shields.io/pypi/v/viralbio-reporting?label=viralbio-reporting)](https://pypi.org/project/viralbio-reporting/)
+[![PyPI - viro-networks](https://img.shields.io/pypi/v/viro-networks?label=viro-networks)](https://pypi.org/project/viro-networks/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10--3.14-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
@@ -33,6 +35,7 @@ Standard assembly and variant workflows treat all contigs as flat lines from iso
 | **[`quasispecies-profiler`](https://pypi.org/project/quasispecies-profiler/)** | **Lab Smudge Filter** | Compares sequencing replicates (`Rep1`, `Rep2`, `Rep3`, ...) with a Beta-Binomial model to reject single-replicate PCR copy jackpots while calling true low-frequency mutations ($\ge 0.5\%$). | [Manual](packages/quasispecies_profiler/README.md) |
 | **[`viralbio-reporting`](https://pypi.org/project/viralbio-reporting/)** | **Seam-Reader & Submitter** | Virtually stitches circular genomes (`Seq + Seq`) so genes crossing the closing seam are never chopped in half, outputting validated 5-column NCBI GenBank `.tbl`/`.fsa` files. | [Manual](packages/viralbio_reporting/README.md) |
 | **[`viro-networks`](https://pypi.org/project/viro-networks/)** | **Co-Infection Mapper** | Corrects relative-percentage distortion across multi-sample cohorts ($N \ge 5$) to map stable co-infections, fit Sloan neutral drift curves, and rank hub viruses. | [Manual](packages/viro_networks/README.md) |
+| **[`virome-suite`](https://pypi.org/project/virome-suite/)** | **Master Cohort Runner** | Connects all 5 tools above into a single branching workflow for single samples (`run`) or multi-sample, multi-replicate cohorts (`run-cohort`). | Root Guide |
 
 ---
 
