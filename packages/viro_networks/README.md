@@ -1,6 +1,6 @@
 # viro-networks
 
-[![PyPI](https://img.shields.io/pypi/v/viro-networks.svg)](https://pypi.org/project/viro-networks/)
+[![PyPI](https://img.shields.io/pypi/v/viro-networks.svg?color=blue)](https://pypi.org/project/viro-networks/)
 [![CI & Coverage](https://github.com/molecularplantpathology/Virome-Suite/actions/workflows/ci.yml/badge.svg)](https://github.com/molecularplantpathology/Virome-Suite/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 

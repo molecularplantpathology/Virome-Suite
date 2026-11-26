@@ -1,12 +1,12 @@
 # Virome-Suite
 
-[![CI & Coverage Gate](https://github.com/molecularplantpathology/Virome-Suite/actions/workflows/ci.yml/badge.svg)](https://github.com/molecularplantpathology/Virome-Suite/actions/workflows/ci.yml)
-[![PyPI - virome-suite](https://img.shields.io/pypi/v/virome-suite?label=virome-suite)](https://pypi.org/project/virome-suite/)
-[![PyPI - viro-drift](https://img.shields.io/pypi/v/viro-drift?label=viro-drift)](https://pypi.org/project/viro-drift/)
-[![PyPI - viral-genome-tools](https://img.shields.io/pypi/v/viral-genome-tools?label=viral-genome-tools)](https://pypi.org/project/viral-genome-tools/)
-[![PyPI - quasispecies-profiler](https://img.shields.io/pypi/v/quasispecies-profiler?label=quasispecies-profiler)](https://pypi.org/project/quasispecies-profiler/)
-[![PyPI - viralbio-reporting](https://img.shields.io/pypi/v/viralbio-reporting?label=viralbio-reporting)](https://pypi.org/project/viralbio-reporting/)
-[![PyPI - viro-networks](https://img.shields.io/pypi/v/viro-networks?label=viro-networks)](https://pypi.org/project/viro-networks/)
+[![CI & Coverage Gate](https://github.com/molecularplantpathology/Virome-Suite/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/molecularplantpathology/Virome-Suite/actions/workflows/ci.yml)
+[![PyPI - virome-suite](https://img.shields.io/pypi/v/virome-suite.svg?label=virome-suite&color=blue)](https://pypi.org/project/virome-suite/)
+[![PyPI - viro-drift](https://img.shields.io/pypi/v/viro-drift.svg?label=viro-drift&color=blue)](https://pypi.org/project/viro-drift/)
+[![PyPI - viral-genome-tools](https://img.shields.io/pypi/v/viral-genome-tools.svg?label=viral-genome-tools&color=blue)](https://pypi.org/project/viral-genome-tools/)
+[![PyPI - quasispecies-profiler](https://img.shields.io/pypi/v/quasispecies-profiler.svg?label=quasispecies-profiler&color=blue)](https://pypi.org/project/quasispecies-profiler/)
+[![PyPI - viralbio-reporting](https://img.shields.io/pypi/v/viralbio-reporting.svg?label=viralbio-reporting&color=blue)](https://pypi.org/project/viralbio-reporting/)
+[![PyPI - viro-networks](https://img.shields.io/pypi/v/viro-networks.svg?label=viro-networks&color=blue)](https://pypi.org/project/viro-networks/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10--3.14-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
